@@ -520,6 +520,7 @@
 
   /* Chat header */
   .chat-header-bar {
+    justify-content: flex-start;
     padding: 10px 12px;
   }
 

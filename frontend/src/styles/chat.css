@@ -241,6 +241,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: 10px;
 }
 
 .chat-header-text {

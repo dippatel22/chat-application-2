@@ -40,11 +40,13 @@ async def register_user(user: UserCreate):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username already taken"
         )
-        if len(user.password.encode("utf-8")) > 72:
-    raise HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail="Password too long (maximum 72 characters)"
-    )
+
+    # 🔒 PASSWORD LENGTH CHECK (✅ CORRECT PLACE)
+    if len(user.password.encode("utf-8")) > 72:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password too long (maximum 72 characters)"
+        )
     
     # Create user
     user_dict = user.model_dump(exclude={"password"})

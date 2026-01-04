@@ -11,6 +11,7 @@ from models import UserInDB, User
 from database import get_database
 from config import settings
 import logging
+from fastapi import Request
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +79,7 @@ async def authenticate_user(email: str, password: str) -> Optional[UserInDB]:
     return user
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> User:
+async def get_current_user(request: Request,credentials: HTTPAuthorizationCredentials = Depends(security)) -> User:
     """Get current authenticated user from JWT token."""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

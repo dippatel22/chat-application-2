@@ -4,7 +4,9 @@
 import { io } from 'socket.io-client';
 import { getToken } from './api';
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:8000';
+const WS_URL = import.meta.env.PROD
+  ? 'wss://chat-application-2-o160.onrender.com'
+  : 'http://localhost:8000';
 
 class WebSocketManager {
   constructor() {
@@ -36,7 +38,7 @@ class WebSocketManager {
     });
 
     this.socket.on('connect', () => {
-      console.log('✅ Connected to WebSocket');
+      console.log(' Connected to WebSocket');
       console.log('   Socket ID:', this.socket.id);
       this.connected = true;
       this.emit('ws_connected');
@@ -114,11 +116,11 @@ class WebSocketManager {
    */
   sendMessage(recipient, content) {
     if (!this.connected || !this.socket) {
-      console.error('❌ Not connected to WebSocket');
+      console.error(' Not connected to WebSocket');
       return false;
     }
 
-    console.log('📤 Sending message via WebSocket:', {
+    console.log(' Sending message via WebSocket:', {
       to: recipient,
       content: content.substring(0, 50)
     });

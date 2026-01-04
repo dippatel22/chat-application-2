@@ -18,6 +18,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [showSidebar, setShowSidebar] = useState(true); // Mobile sidebar toggle
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -132,6 +133,7 @@ const Chat = () => {
     
     setSelectedChat(chat);
     setShowSearch(false);
+    setShowSidebar(false); // Hide sidebar on mobile when chat is selected
     
     // Clear unread count immediately in UI
     if (chat.unread_count > 0) {
@@ -211,7 +213,7 @@ const Chat = () => {
   return (
     <div className="chat-container">
       {/* Sidebar */}
-      <div className="chat-sidebar">
+      <div className={`chat-sidebar ${!showSidebar && selectedChat ? 'hidden' : ''}`}>
         <div className="sidebar-header">
           <h2>Chats</h2>
           <div className="sidebar-actions">
@@ -312,6 +314,16 @@ const Chat = () => {
         {selectedChat ? (
           <>
             <div className="chat-header-bar">
+              {/* Mobile back button */}
+              <button
+                className="mobile-back-button"
+                onClick={() => setShowSidebar(true)}
+                aria-label="Back to chats"
+                title="Back to chats"
+              >
+                ←
+              </button>
+              
               <div className="chat-header-info-bar">
                 <div
                   className={`chat-avatar ${

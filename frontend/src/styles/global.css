@@ -194,12 +194,59 @@ input, textarea {
   animation: slideUp 0.3s ease-out;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Responsive Design */
+
+/* Mobile devices (portrait phones, less than 576px) */
+@media (max-width: 575px) {
+  body {
+    font-size: 14px;
+  }
+
   .container {
-    padding: 0 10px;
+    padding: 0 12px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
   }
 }
+
+/* Tablets and small laptops (576px to 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* Medium devices (tablets, 768px to 992px) */
+@media (min-width: 768px) and (max-width: 992px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+/* Large devices (desktops, 992px to 1200px) */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
 
 
 

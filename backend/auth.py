@@ -57,12 +57,13 @@ async def get_user_by_email(email: str) -> Optional[UserInDB]:
 
 async def authenticate_user(email: str, password: str) -> Optional[UserInDB]:
     """Authenticate user with email and password."""
-    user = await get_user_by_email(email)
+    
     if len(password.encode("utf-8")) > 72:
         raise HTTPException(
             status_code=400,
             detail="Password too long (maximum 72 characters)"
         )
+    user = await get_user_by_email(email)
     if not user:
         return None
     if not verify_password(password, user.hashed_password):

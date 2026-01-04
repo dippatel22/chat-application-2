@@ -14,11 +14,17 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Create Socket.IO server
+# Create Socket.IO server with proper CORS configuration
+# In production, use specific origins from settings
+# In development, allow all origins for easier testing
+cors_origins = settings.cors_origins_list if settings.is_production else '*'
+
+logger.info(f"Socket.IO CORS Origins: {cors_origins}")
+
 sio = socketio.AsyncServer(
     async_mode='asgi',
-    cors_allowed_origins='*',
-    logger=True,
+    cors_allowed_origins=cors_origins,
+    logger=True if settings.is_development else False,
     engineio_logger=False
 )
 

@@ -9,19 +9,19 @@ import sys
 import socketio
 
 
-from config import settings
+from config import settings, log_config
 from database import connect_to_mongo, close_mongo_connection, create_indexes, get_database
 from routes import users, messages, activity
 from socket_manager import sio, get_socketio_app
 from bot import AIBot
 
 # Configure logging
+log_level = logging.DEBUG if settings.is_development else logging.INFO
 logging.basicConfig(
-    level=logging.INFO,
+    level=log_level,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('app.log')
+        logging.StreamHandler(sys.stdout)
     ]
 )
 logger = logging.getLogger(__name__)
@@ -31,11 +31,17 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     # Startup
+    logger.info("=" * 50)
     logger.info("Starting application...")
+    log_config()  # Log configuration
+    logger.info("=" * 50)
+    
     await connect_to_mongo()
     await create_indexes()
     await initialize_bot_user()
-    logger.info("Application started successfully")
+    
+    logger.info("Application started successfully!")
+    logger.info("=" * 50)
     
     yield
     
@@ -116,6 +122,8 @@ app.mount("/socket.io", socket_app)
 
 # For direct Socket.IO access (without FastAPI routing)
 combined_app = socketio.ASGIApp(sio, app)
+
+
 
 
 
